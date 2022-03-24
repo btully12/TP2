@@ -53,8 +53,12 @@ piv <- df %>%
   group_by(NCAA_CONFERENCE,avg_score) %>% 
   select(NCAA_CONFERENCE,SPORT_NAME,avg_score)
 
-
-
+pt <- PivotTable$new() 
+pt$addData(piv)
+pt$renderPivot()
+pt$addColumnDataGroups("NCAA_CONFERENCE")
+pt$addRowDataGroups()
+pt
 
 
 df
