@@ -55,14 +55,15 @@ piv <- df %>%
 
 pt <- PivotTable$new() 
 pt$addData(piv)
+pt$defineCalculation(calculationName = "avg_score",summariseExpression='n()')
+pt$addColumnDataGroups("SPORT_NAME")
+pt$addRowDataGroups("NCAA_CONFERENCE")
+PT$addRowDataGroups("NCAA_DIVISION")
 
-pt$addColumnDataGroups("NCAA_CONFERENCE")
-pt$addRowDataGroups("SPORT_NAME")
-pt$defineCalculation(calculationName = "avg_score")
-pt$evaluatePivot
+pt$evaluatePivot()
 
 pt$renderPivot()
-print(pt
+print(pt)
 
 
 df
