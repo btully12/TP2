@@ -2,7 +2,8 @@ install.packages("tidyverse")
 install.packages("ggplot2")
 library("lattice") 
 library("tidyselect")
-library("ggplot2")
+library(ggplot2)
+library(dplyr)
 df <- read.csv('database.csv')
 
 summary(df)
@@ -57,26 +58,24 @@ hist(xx,main="Average Scores of Athletes (2004-14)",
 
 
 
+
 t = cor(athlete)
 
 
-ath_count <- x$counts
 
-hist(ath_count)
+
+
 
 t<-data.matrix(df, rownames.force = NA)
-ath_mean <- colMeans(athlete)
 
 
-ggplot(athlete) 
-geom_histogram(mapping=athlete) 
 
-
+conference <- data.frame.groupby(df,'NCAA_CONFERENCE')
 
 
 
 
-
+DDD
 
 
 
@@ -97,8 +96,13 @@ geom_histogram(mapping=athlete)
 
 
 
-df%>%
-  group_by(df$SPORT_NAME, df$NCAA_CONFERENCE, add = FALSE)
+
+
+
+df %>%
+  group_by(df$SPORT_NAME,
+           df$NCAA_CONFERENCE, 
+           add = FALSE)
 
 
 
