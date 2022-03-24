@@ -43,7 +43,7 @@ new <- (mean(c(15,19,23,27,31,35,39,43,47,51,55)))
 
 athlete <- df[, colnames(df)[mean(c(15,19,23,27,31,35,39,43,47,51,55))]]
 
-athlete <- df[[mean((df$X2014_SCORE X2013_SCORE '2012_SCORE','2011_SCORE','2010_SCORE','2009_SCORE','2008_SCORE','2007_SCORE','2006_SCORE','2005_SCORE','2004_SCORE'))]]
+
 
 df['avg_score'] <- athlete
 
@@ -55,10 +55,14 @@ piv <- df %>%
 
 pt <- PivotTable$new() 
 pt$addData(piv)
-pt$renderPivot()
+
 pt$addColumnDataGroups("NCAA_CONFERENCE")
-pt$addRowDataGroups()
-pt
+pt$addRowDataGroups("SPORT_NAME")
+pt$defineCalculation(calculationName = "avg_score")
+pt$evaluatePivot
+
+pt$renderPivot()
+print(pt
 
 
 df
