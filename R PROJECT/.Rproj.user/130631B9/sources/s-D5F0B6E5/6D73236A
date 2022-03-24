@@ -3,7 +3,7 @@
     "path": "~/Desktop/Brett Tully/School/Bellarmine University/Data Science 1/Projects/TP2/R PROJECT/TP2.R",
     "project_path": "TP2.R",
     "type": "r_source",
-    "hash": "2540465272",
+    "hash": "3835425598",
     "contents": "",
     "dirty": false,
     "created": 1647998213368.0,
@@ -13,15 +13,15 @@
         "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "46,24",
-        "scrollLine": "23"
+        "cursorPosition": "49,0",
+        "scrollLine": "26"
     },
     "folds": "",
-    "lastKnownWriteTime": 1648154890,
+    "lastKnownWriteTime": 1648155088,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1648154890674,
+    "last_content_update": 1648155088563,
     "read_only": false,
     "read_only_alternatives": []
 }
