@@ -83,3 +83,24 @@ geom_histogram(mapping=athlete)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+df%>%
+  group_by(df$SPORT_NAME, df$NCAA_CONFERENCE, add = FALSE)
+
+
+
+
+
