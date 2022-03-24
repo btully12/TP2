@@ -38,7 +38,10 @@ keep <- c('FOURYEAR_ATHLETES','2014_ATHLETES', '2013_ATHLETES', '2012_ATHLETES',
 
 
 athlete <- df[, colnames(df)[c(15,19,23,27,31,35,39,43,47,51,55)]]
-cor(athlete)
+mean(athlete)
+t = cor(athlete)
+
+heatmap(t)
 
 
 t<-data.matrix(df, rownames.force = NA)
@@ -47,48 +50,6 @@ ath_mean <- colMeans(athlete)
 
 ggplot(athlete) 
 geom_histogram(mapping=athlete) 
-
-HI jack can you see this
-
-fsjldkfjlsk 
-
-
-
-testing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-hjkhkkhjklk
-
-
-
-
-
-
-
 
 
 
