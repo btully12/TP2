@@ -43,13 +43,25 @@ t = cor(athlete)
 
 heatmap(t)
 
-hist(athlete)
+hist(athlete, 
+     main="Average Scores of Athletes (2004-14)", 
+     xlab="Averages Scores",
+     border="blue", 
+     col="green",
+     xlim=c(900,1000))
+
+
+
 t<-data.matrix(df, rownames.force = NA)
 ath_mean <- colMeans(athlete)
 
 
 ggplot(athlete) 
 geom_histogram(mapping=athlete) 
+
+
+
+
 
 
 
