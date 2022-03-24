@@ -2,6 +2,7 @@ install.packages("tidyverse")
 install.packages("ggplot2")
 library("lattice") 
 library("tidyselect")
+library("ggplot2")
 df <- read.csv('database.csv')
 
 summary(df)
@@ -40,7 +41,8 @@ t<-data.matrix(df, rownames.force = NA)
 ath_mean <- colMeans(athlete)
 
 
-p <- ggplot(athlete, aes(x=ath_mean)) + 
-  geom_histogram()
-geom_histogram(athlete)
+ggplot(athlete) 
+geom_histogram(mapping=athlete) 
+
+HI jack can you see this
 

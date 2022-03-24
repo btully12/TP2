@@ -42,5 +42,7 @@ ath_mean <- colMeans(athlete)
 
 
 ggplot(athlete) 
-geom_histogram(mapping=athlete)
+geom_histogram(mapping=athlete) 
+
+HI jack can you see this
 
