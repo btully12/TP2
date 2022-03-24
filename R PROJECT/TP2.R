@@ -35,7 +35,11 @@ keep <- c('FOURYEAR_ATHLETES','2014_ATHLETES', '2013_ATHLETES', '2012_ATHLETES',
            '2011_ATHLETES', '2010_ATHLETES', '2009_ATHLETES', '2008_ATHLETES',
            '2007_ATHLETES', '2006_ATHLETES', '2005_ATHLETES', '2004_ATHLETES')
 
+
+
 athlete <- df[, colnames(df)[c(15,19,23,27,31,35,39,43,47,51,55)]]
+cor(athlete)
+
 
 t<-data.matrix(df, rownames.force = NA)
 ath_mean <- colMeans(athlete)
@@ -78,3 +82,19 @@ testing
 
 
 hjkhkkhjklk
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
