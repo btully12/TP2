@@ -36,9 +36,19 @@ keep <- c('FOURYEAR_ATHLETES','2014_ATHLETES', '2013_ATHLETES', '2012_ATHLETES',
            '2011_ATHLETES', '2010_ATHLETES', '2009_ATHLETES', '2008_ATHLETES',
            '2007_ATHLETES', '2006_ATHLETES', '2005_ATHLETES', '2004_ATHLETES')
 
+new <- (mean(c(15,19,23,27,31,35,39,43,47,51,55)))
+
+athlete <- df[, colnames(df)[mean(c(15,19,23,27,31,35,39,43,47,51,55))]]
 
 
-athlete <- df[, colnames(df)[mean(c(10,15,19,23,27,31,35,39,43,47,51,55))]]
+
+mean(df$X2014_SCORE, '2014_SCORE','2013_SCORE','2012_SCORE','2011_SCORE','2010_SCORE','2009_SCORE','2008_SCORE','2007_SCORE','2006_SCORE','2005_SCORE','2004_SCORE')
+
+
+
+
+
+athlete <- df[, colnames(df)[mean(c('2014_SCORE','2013_SCORE','2012_SCORE','2011_SCORE','2010_SCORE','2009_SCORE','2008_SCORE','2007_SCORE','2006_SCORE','2005_SCORE','2004_SCORE'))]]
 
 hist(athlete)
 xx <-(table(athlete))
@@ -100,9 +110,7 @@ DDD
 
 
 df %>%
-  group_by(df$SPORT_NAME,
-           df$NCAA_CONFERENCE, 
-           add = FALSE)
+  group_by(SPORT_NAME,NCAA_DIVISION) 
 
 
 
