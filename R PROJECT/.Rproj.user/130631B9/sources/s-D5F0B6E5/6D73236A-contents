@@ -37,8 +37,12 @@ keep <- c('FOURYEAR_ATHLETES','2014_ATHLETES', '2013_ATHLETES', '2012_ATHLETES',
 
 
 
-athlete <- df[, colnames(df)[(c(15,19,23,27,31,35,39,43,47,51,55))]]
-athlete
+athlete <- df[, colnames(df)[mean(c(15,19,23,27,31,35,39,43,47,51,55))]]
+
+
+xx <- table(athlete)
+xx
+
 ath_mean <- colMeans(athlete)
 
 
@@ -46,14 +50,14 @@ t = cor(athlete)
 
 heatmap(t)
 
-hist(athlete, 
-     main="Average Scores of Athletes (2004-14)", 
-     xlab="Averages Scores",
-     border="blue", 
-     col="green",
-     breaks=50,
-     xlim=c(900,1100))
+hist(xx,main="Average Scores of Athletes (2004-14)",
+     xlim(0,100))
 
+
+
+ath_count <- x$counts
+
+hist(ath_count)
 
 t<-data.matrix(df, rownames.force = NA)
 ath_mean <- colMeans(athlete)
