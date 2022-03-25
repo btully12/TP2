@@ -1,5 +1,7 @@
 install.packages("tidyverse")
 install.packages("ggplot2")
+install.packages("data.table")
+library(data.table)
 library("lattice") 
 library("tidyselect")
 library(ggplot2)
@@ -55,19 +57,30 @@ piv <- df %>%
   group_by(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION) %>% 
   select(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION)
   
-pew <- aggregate(piv$avg_score, by=list(Sport=piv$SPORT_NAME,piv$NCAA_CONFERENCE), FUN=mean)
+pew <- data.frame(aggregate(as.matrix(piv$avg_score), by=list(Sport=piv$SPORT_NAME), FUN=mean))
+pew
 
 
+
+Men <- pew[grep("Men's", pew$Sport), ]
+
+Women <- pew[grep("Women's", pew$Sport), ]
+as.matrix(Men$x)
+df2 <- rbind(Men,Women)
+as.matrix(df2$x)
+
+heatmap(
+)
 pt <- PivotTable$new() %>%
   pt$addData(pew) %>%
   pt$defineCalculation(calculationName = "avg_score") %>%
   pt$addColumnDataGroups("SPORT_NAME") %>%
   pt$addRowDataGroups("NCAA_DIVISION") %>%
-  pt$addRowDataGroups("NCAA_CONFERENCE") %>%
-  pt$renderPivot() %>%
-  pt
+  pt$addRowDataGroups("NCAA_CONFERENCE")
 
+pew = qpvt(pew,"Sport","Group.2","x")
 
+pew
 
 
 piv <- df %>% 
