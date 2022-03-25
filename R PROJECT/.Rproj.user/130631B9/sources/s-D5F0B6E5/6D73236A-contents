@@ -57,17 +57,21 @@ piv <- df %>%
   group_by(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION) %>% 
   select(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION)
   
-pew <- data.frame(aggregate(as.matrix(piv$avg_score), by=list(Sport=piv$SPORT_NAME), FUN=mean))
-pew
+sport_avg <- data.frame(aggregate(as.matrix(piv$avg_score), by=list(Sport=piv$SPORT_NAME), FUN=mean))
+sport_avg
+
+conf_avg <- data.frame(aggregate(as.matrix(piv$avg_score), by=list(Conference=piv$NCAA_CONFERENCE), FUN=mean))
+
+Men <- sport_avg[grep("Men's", sport_avg$Sport), ] 
+
+
+Women <- sport_avg[grep("Women's", sport_avg$Sport), ]
 
 
 
-Men <- pew[grep("Men's", pew$Sport), ]
 
-Women <- pew[grep("Women's", pew$Sport), ]
-as.matrix(Men$x)
-df2 <- rbind(Men,Women)
-as.matrix(df2$x)
+
+
 
 heatmap(
 )
@@ -78,20 +82,18 @@ pt <- PivotTable$new() %>%
   pt$addRowDataGroups("NCAA_DIVISION") %>%
   pt$addRowDataGroups("NCAA_CONFERENCE")
 
-pew = qpvt(pew,"Sport","Group.2","x")
+qpvt(pew,"Sport","V1")
 
 pew
 
 
-piv <- df %>% 
-  group_by(unique(NCAA_CONFERENCE)) %>% 
-  select(NCAA_CONFERENCE)
 
 
 
 
 
-qpvt(piv, "SPORT_NAME","NCAA_CONFERENCE","avg_score")
+
+qpvt(pew, rows = "Sport",calculations = "V1")
 
 df
 
