@@ -178,9 +178,9 @@ dfpair<- dplyr::select(df, -c(
                               "SCHOOL_TYPE","SPORT_CODE",
                               "SPORT_NAME","NCAA_SUBDIVISION",
                               "NCAA_CONFERENCE"))
-
-pairs(dfpair)
-pairs(mar = rep(2, 4))        #figure margins too large, tried to fix it with this line
+jpeg(file="pair_wise_plot.jpeg")
+pairs(dfcor[,c(1:14)])
+      #figure margins too large, tried to fix it with this line
 dev.off()
 ####
 
