@@ -55,7 +55,20 @@ piv <- df %>%
   group_by(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION) %>% 
   select(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION)
   
-aggregate(piv$avg_score, by=list(Sport=piv$SPORT_NAME), FUN=mean)
+pew <- aggregate(piv$avg_score, by=list(Sport=piv$SPORT_NAME,piv$NCAA_CONFERENCE), FUN=mean)
+
+
+pt <- PivotTable$new() %>%
+  pt$addData(pew) %>%
+  pt$defineCalculation(calculationName = "avg_score") %>%
+  pt$addColumnDataGroups("SPORT_NAME") %>%
+  pt$addRowDataGroups("NCAA_DIVISION") %>%
+  pt$addRowDataGroups("NCAA_CONFERENCE") %>%
+  pt$renderPivot() %>%
+  pt
+
+
+
 
 piv <- df %>% 
   group_by(unique(NCAA_CONFERENCE)) %>% 
@@ -63,14 +76,7 @@ piv <- df %>%
 
 
 
-pt <- PivotTable$new() %>%
-pt$addData(piv) %>%
-pt$defineCalculation(calculationName = "avg_score") %>%
-pt$addColumnDataGroups("SPORT_NAME") %>%
-pt$addRowDataGroups("NCAA_DIVISION") %>%
-pt$addRowDataGroups("NCAA_CONFERENCE") %>%
-pt$renderPivot() %>%
-pt
+
 
 qpvt(piv, "SPORT_NAME","NCAA_CONFERENCE","avg_score")
 
