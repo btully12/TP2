@@ -2,8 +2,12 @@ install.packages("tidyverse")
 install.packages("ggplot2")
 library("lattice") 
 library("tidyselect")
-library("ggplot2")
+library(ggplot2)
+library(dplyr)
+install.packages("pivottabler")
+library(pivottabler)
 df <- read.csv('database.csv')
+
 
 summary(df)
 
@@ -35,9 +39,43 @@ keep <- c('FOURYEAR_ATHLETES','2014_ATHLETES', '2013_ATHLETES', '2012_ATHLETES',
            '2011_ATHLETES', '2010_ATHLETES', '2009_ATHLETES', '2008_ATHLETES',
            '2007_ATHLETES', '2006_ATHLETES', '2005_ATHLETES', '2004_ATHLETES')
 
+new <- (mean(c(15,19,23,27,31,35,39,43,47,51,55)))
+
+athlete <- df[, colnames(df)[mean(c(15,19,23,27,31,35,39,43,47,51,55))]]
 
 
-athlete <- df[, colnames(df)[mean(c(10,15,19,23,27,31,35,39,43,47,51,55))]]
+
+df['avg_score'] <- athlete
+
+
+
+piv <- df %>% 
+  group_by(NCAA_CONFERENCE,avg_score) %>% 
+  select(NCAA_CONFERENCE,SPORT_NAME,avg_score)
+
+pt <- PivotTable$new() 
+pt$addData(piv)
+pt$defineCalculation(calculationName = "avg_score",summariseExpression='n()')
+pt$addColumnDataGroups("SPORT_NAME")
+pt$addRowDataGroups("NCAA_CONFERENCE")
+pt$addRowDataGroups("NCAA_DIVISION")
+pt$defineCalculation(calculationName = "avg_score", type="value", valueName="Average Score")
+pt$evaluatePivot()
+pt$renderPivot()
+
+
+
+pairs(piv)
+
+
+print(pt)
+
+head(pt)
+df
+
+qpvt(piv, "SPORT_NAME", "NCAA_CONFERENCE")
+
+athlete <- df[, colnames(df)[mean(c('2014_SCORE','2013_SCORE','2012_SCORE','2011_SCORE','2010_SCORE','2009_SCORE','2008_SCORE','2007_SCORE','2006_SCORE','2005_SCORE','2004_SCORE'))]]
 
 hist(athlete)
 xx <-(table(athlete))
@@ -57,26 +95,24 @@ hist(xx,main="Average Scores of Athletes (2004-14)",
 
 
 
+
 t = cor(athlete)
 
 
-ath_count <- x$counts
 
-hist(ath_count)
+
+
 
 t<-data.matrix(df, rownames.force = NA)
-ath_mean <- colMeans(athlete)
 
 
-ggplot(athlete) 
-geom_histogram(mapping=athlete) 
 
-
+conference <- data.frame.groupby(df,'NCAA_CONFERENCE')
 
 
 
 
-
+DDD
 
 
 
@@ -97,8 +133,11 @@ geom_histogram(mapping=athlete)
 
 
 
-df%>%
-  group_by(df$SPORT_NAME, df$NCAA_CONFERENCE, add = FALSE)
+
+
+
+df %>%
+  group_by(SPORT_NAME,NCAA_DIVISION) 
 
 
 
