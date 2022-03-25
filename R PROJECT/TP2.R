@@ -1,36 +1,51 @@
+# File Name: TP2_BJT_JRH
+## Author: Brett Tully & Jack Hall
+### R 
+#### Class: DS-160-01
+##### Semester: Spring '22
+
+
+
+
+
+
+
 install.packages("tidyverse")
 install.packages("ggplot2")
 install.packages("data.table")
+install.packages("ggridges")
+install.packages("pivottabler")
+install.packages("tidyer")
+install.packages("tibble")
+install.packages("hrbrthemes")
+install.packages("devtools")
+install_github("easyGgplot2", "kassambara")
+install.packages("reshape") 
+library(pivottabler) 
+library(tidyr)
+library(tibble)
+library(hrbrthemes)
+library(devtools) 
+library(easyGgplot2)
+library(ggridges)
+library(reshape)
+library(vioplot)
 library(data.table)
 library("lattice") 
 library("tidyselect")
 library(ggplot2)
 library(dplyr)
-install.packages("pivottabler")
-library(pivottabler) 
-install.packages("tidyer")
-install.packages("tibble")
-install.packages("hrbrthemes")
-library(tidyr)
-library(tibble)
-library(hrbrthemes)
-install.packages("devtools")
-library(devtools) 
-install_github("easyGgplot2", "kassambara")
-library(easyGgplot2)
-install.packages("reshape") 
-library(ggridges)
-install.packages("ggridges")
-library(reshape)
-Yes
-library(vioplot)
+
+
+
+
 df <- read.csv('database.csv')
 
 
 
 
 
-
+summary(df)
 
 head(df)
 
@@ -63,8 +78,9 @@ df$avg_score = round(df$avg_score,digit=2)
 
 df$avg_score = as.numeric(df$avg_score)
 
+jpeg(file="histogram.jpeg")
 histogram(df$avg_score, main="Average APR Scores (2004-2014)",col = 'yellow', xlab = "Scores",ylab = "")
-
+dev.off()
 
 
 
@@ -97,13 +113,16 @@ dfcor <- dplyr::select(df, -c("ACADEMIC_YEAR","NCAA_DIVISION",
 
 score_elig = cor(dfcor)
 
+
+jpeg(file="correlation-matrix.jpeg")
 heatmap(score_elig)
+dev.off()
 ########
 
 p<-df %>% 
   group_by(SPORT_NAME, NCAA_CONFERENCE,avg_score) %>%
   select(NCAA_CONFERENCE,SPORT_NAME,avg_score)
-
+p
 
 
 k = aggregate(avg_score ~ NCAA_CONFERENCE+SPORT_NAME, data=df, FUN = mean)
@@ -116,34 +135,14 @@ sport_avg
 
 
 
-piv <- df %>% 
-  group_by(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION) %>% 
-  select(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION)
+
   
+
 con_sport <- df %>% 
   group_by(NCAA_CONFERENCE,avg_score) %>% 
   select(NCAA_CONFERENCE,avg_score)
 
-t <- dplyr::select(con_sport$NCAA_CONFERENCE,
--c('America East Conference', 'American Athletic Conference',
-   'Atlantic 10 Conference',
-'Big Sky Conference', 'Big South Conference',
- 'Big West Conference', 'Centennial Conference',
-'East Coast Conference', 'Empire 8',
-'Great Lakes Intercollegiate Athletic Conference',
-'Great Northwest Athletic Conference', 'Gulf South Conference',
-'Horizon League', 'Liberty League',
-'Metro Atlantic Athletic Conference', 'Mid-American Conference',
-'Mid-Eastern Athletic Conference', 'Missouri Valley Conference',
-'Mountain West Conference', 'Northeast Conference',
-'Northeast-10 Conference', 'Northern Sun Intercollegiate Conference',
-'Ohio Valley Conference',  'Patriot League',
-'Peach Belt Conference', 'Pennsylvania State Athletic Conference',
-'Southern Collegiate Athletic Conference',
-'Southern Conference', 'Southland Conference',
-'Southwestern Athletic Conference', 'Sun Belt Conference',
-'The Summit League', 'West Coast Conference',
-'Western Athletic Conference'))
+
 
 ####
 
@@ -158,9 +157,12 @@ sport_avg
 conf_avg <- data.frame(aggregate(as.matrix(piv$avg_score), by=list(Conference=piv$NCAA_CONFERENCE), FUN=mean))
 conf_avg <- conf_avg[c(4,5,6,7,10,22,29),]
 conf_avg
+dev.off()
 
+jpeg(file="main-Confrence-scores.jpeg")
 ggplot(conf_avg) + 
   geom_point(aes(x = V1, y = reorder(Conference, V1)))
+dev.off()
 ######
 
 
@@ -174,9 +176,9 @@ dfpair<- dplyr::select(df, -c(
                               "SCHOOL_TYPE","SPORT_CODE",
                               "SPORT_NAME","NCAA_SUBDIVISION",
                               "NCAA_CONFERENCE"))
-
+####
 pairs(data = dfpair)
-
+####JACK
 
 
 
@@ -201,9 +203,6 @@ women_av = c(968, 954, 976,988,
 mw_avg  = data.frame(men_av,women_av)
 mw_avg 
 
-boxplot(men_av~women_av, data = mv_avg)
-par(mar=c(1,1,1,1))
-barplot(mw_avg)
 
 
 
@@ -213,49 +212,45 @@ barplot(mw_avg)
 
 
 ####
-
+#men average and women average graphed
 Men_Avg = mean(Men$V1)
 Women_Avg = mean(Women$V1)
 compare = cbind.data.frame(Men_Avg,Women_Avg)
 compare
 barplot(data = compare)
+#######JACK
 
 
+
+jpeg(file="men-sports-scores.jpeg")
 ggplot(Men) + 
   geom_point(aes(x = V1, y = reorder(Sport, V1))) 
+dev.off()
 
+jpeg(file="womens-sports-scores.jpeg")
 ggplot(Women) + 
   geom_point(aes(x = V1, y = reorder(Sport, V1)))
-
+dev.off()
 
 #####
+#Men's heatmap
 
-barplot(compare, beside=T,ylim = c(0,1000), col = c("red","green"),label = ) 
 
 ggplot(p)
 
 
 
-
+jpeg(file="Men's-heatmap.jpeg")
 table(Men) %>% 
   as.data.frame() %>% 
   ggplot() + 
   aes(x=Sport, y=V1, fill=Freq) %>% 
   geom_tile()
+dev.off()
 
 
 
 
-heatmap(
-)
-pt <- PivotTable$new() %>%
-  pt$addData(pew) %>%
-  pt$defineCalculation(calculationName = "avg_score") %>%
-  pt$addColumnDataGroups("SPORT_NAME") %>%
-  pt$addRowDataGroups("NCAA_DIVISION") %>%
-  pt$addRowDataGroups("NCAA_CONFERENCE")
-
-qpvt(pew,"Sport","V1")
 
 
 
