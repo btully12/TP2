@@ -6,13 +6,15 @@ library(ggplot2)
 library(dplyr)
 install.packages("pivottabler")
 library(pivottabler)
+
+
 df <- read.csv('database.csv')
 
 
-summary(df)
 
 
-df = unique(df)
+
+
 
 head(df)
 
@@ -33,7 +35,7 @@ df<-subset(df, df$X2004_ATHLETES != '-99')
 df<-subset(df, df$X2013_RETENTION != '-99')
 df<-subset(df, df$NCAA_SUBDIVISION != '-99')
  
-
+summary(df)
 
 keep <- c('FOURYEAR_ATHLETES','2014_ATHLETES', '2013_ATHLETES', '2012_ATHLETES',
            '2011_ATHLETES', '2010_ATHLETES', '2009_ATHLETES', '2008_ATHLETES',
@@ -50,21 +52,33 @@ df['avg_score'] <- athlete
 
 
 piv <- df %>% 
-  group_by(NCAA_CONFERENCE,avg_score) %>% 
-  select(NCAA_CONFERENCE,SPORT_NAME,avg_score)
+  group_by(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION) %>% 
+  select(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION)
+  
+pew <- aggregate(piv$avg_score, by=list(Sport=piv$SPORT_NAME,piv$NCAA_CONFERENCE), FUN=mean)
 
-pt <- PivotTable$new() 
-pt$addData(piv)
-pt$defineCalculation(calculationName = "avg_score",summariseExpression='n()')
-pt$addColumnDataGroups("SPORT_NAME")
-pt$addRowDataGroups("NCAA_CONFERENCE")
-PT$addRowDataGroups("NCAA_DIVISION")
 
-pt$evaluatePivot()
+pt <- PivotTable$new() %>%
+  pt$addData(pew) %>%
+  pt$defineCalculation(calculationName = "avg_score") %>%
+  pt$addColumnDataGroups("SPORT_NAME") %>%
+  pt$addRowDataGroups("NCAA_DIVISION") %>%
+  pt$addRowDataGroups("NCAA_CONFERENCE") %>%
+  pt$renderPivot() %>%
+  pt
 
-pt$renderPivot()
-print(pt)
 
+
+
+piv <- df %>% 
+  group_by(unique(NCAA_CONFERENCE)) %>% 
+  select(NCAA_CONFERENCE)
+
+
+
+
+
+qpvt(piv, "SPORT_NAME","NCAA_CONFERENCE","avg_score")
 
 df
 
