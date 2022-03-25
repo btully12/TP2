@@ -126,6 +126,10 @@ p<-df %>%
   select(NCAA_CONFERENCE,SPORT_NAME,avg_score)
 p
 
+piv <- df %>% 
+  group_by(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION) %>% 
+  select(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION)
+
 
 k = aggregate(avg_score ~ NCAA_CONFERENCE+SPORT_NAME, data=df, FUN = mean)
 k
@@ -219,7 +223,7 @@ Men_Avg = mean(Men$V1)
 Women_Avg = mean(Women$V1)
 compare = cbind.data.frame(Men_Avg,Women_Avg)
 compare
-barplot(data = compare)
+barplot(data = compare) ####somehow unable to make it work
 #######
 
 
