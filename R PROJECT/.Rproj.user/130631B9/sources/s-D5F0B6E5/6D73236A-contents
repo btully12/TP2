@@ -53,11 +53,15 @@ df['avg_score'] <- athlete
 
 piv <- df %>% 
   group_by(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION) %>% 
-  select(NCAA_CONFERENCE,SPORT_NAME,avg_score)
+  select(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION)
   
+aggregate(piv$avg_score, by=list(Sport=piv$SPORT_NAME), FUN=mean)
+
 piv <- df %>% 
-  group_by(unique(('NCAA_CONFERENCE',SPORT_NAME,avg_score,NCAA_DIVISION))) %>% 
-  select(NCAA_CONFERENCE,SPORT_NAME,avg_score)
+  group_by(unique(NCAA_CONFERENCE)) %>% 
+  select(NCAA_CONFERENCE)
+
+
 
 pt <- PivotTable$new() %>%
 pt$addData(piv) %>%
