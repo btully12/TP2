@@ -7,7 +7,14 @@ library("tidyselect")
 library(ggplot2)
 library(dplyr)
 install.packages("pivottabler")
-library(pivottabler)
+library(pivottabler) 
+install.packages("tidyer")
+install.packages("tibble")
+install.packages("hrbrthemes")
+library(tidyr)
+library(tibble)
+library(hrbrthemes)
+
 
 
 df <- read.csv('database.csv')
@@ -60,15 +67,39 @@ piv <- df %>%
 sport_avg <- data.frame(aggregate(as.matrix(piv$avg_score), by=list(Sport=piv$SPORT_NAME), FUN=mean))
 sport_avg
 
+
+
 conf_avg <- data.frame(aggregate(as.matrix(piv$avg_score), by=list(Conference=piv$NCAA_CONFERENCE), FUN=mean))
 
 Men <- sport_avg[grep("Men's", sport_avg$Sport), ] 
+Men=Men[-5,]
+
+Men=Men[-3,]
+Men=Men[-6,]
+Men=Men[-9,]
+Men=Men[-2,] 
+Men=Men[-9,]
+Men=Men[-9,]
 
 
 Women <- sport_avg[grep("Women's", sport_avg$Sport), ]
 
+sport_avg %>% 
+  as_tibble() %>% 
+  rowid_to_column(var = "Sport") %>% 
+  gather(key="V1", value="V1",-1) %>% 
+  mutate(V1=as.numeric(gsub("V","",V1))) %>% 
+  ggplot(aes(Sport,V1,fill=V1)) + 
+  geom_tile() +
+  theme_ipsum() + 
+  theme(legend.position="none")
 
 
+table(Men) %>% 
+  as.data.frame() %>% 
+  ggplot() + 
+  aes(x=Sport, y=V1, fill=Freq) %>% 
+  geom_tile()
 
 
 
