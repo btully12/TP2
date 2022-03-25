@@ -14,9 +14,16 @@ install.packages("hrbrthemes")
 library(tidyr)
 library(tibble)
 library(hrbrthemes)
-
-
-
+install.packages("devtools")
+library(devtools) 
+install_github("easyGgplot2", "kassambara")
+library(easyGgplot2)
+install.packages("reshape") 
+library(ggridges)
+install.packages("ggridges")
+library(reshape)
+Yes
+library(vioplot)
 df <- read.csv('database.csv')
 
 
@@ -87,6 +94,7 @@ dfcor <- dplyr::select(df, -c("ACADEMIC_YEAR","NCAA_DIVISION",
                               "X2004_ATHLETES","X2004_RETENTION",
                               "avg_score","FOURYEAR_ATHLETES","FOURYEAR_SCORE"))
 
+
 score_elig = cor(dfcor)
 
 heatmap(score_elig)
@@ -98,7 +106,8 @@ p<-df %>%
 
 
 
-aggregate(avg_score ~ SPORT_NAME + NCAA_DIVISION, data=df, FUN = mean)
+k = aggregate(avg_score ~ NCAA_CONFERENCE+SPORT_NAME, data=df, FUN = mean)
+k
 
 
 p
@@ -166,10 +175,7 @@ dfpair<- dplyr::select(df, -c(
                               "SPORT_NAME","NCAA_SUBDIVISION",
                               "NCAA_CONFERENCE"))
 
-graphics.off() 
-par("mar") 
-par(mar=c(1,1,1,1))
-pairs(FOURYEAR_RETENTION ~ ., data = dfpair)
+pairs(data = dfpair)
 
 
 
@@ -177,31 +183,32 @@ pairs(FOURYEAR_RETENTION ~ ., data = dfpair)
 
 
 ####
-Men <- sport_avg[grep("Men's", sport_avg$Sport), ] 
-Men=Men[-5,]
-
-Men=Men[-3,]
-Men=Men[-6,]
-Men=Men[-9,]
-Men=Men[-2,] 
-Men=Men[-9,]
-Men=Men[-9,]
-
-
 Women <- sport_avg[grep("Women's", sport_avg$Sport), ]
+Men <- sport_avg[grep("Men's", sport_avg$Sport), ] 
+
+Men$V1
+Women
+
+men_av= c(945,968, 980, 971, 979,
+ 982, 974, 962, 964, 972,
+969, 960, 961, 973, 975, 956)
+
+women_av = c(968, 954, 976,988,
+986, 982, 987, 987,
+987, 982, 980, 979,
+974, 982, 977, 972)
+
+mw_avg  = data.frame(men_av,women_av)
+mw_avg 
+
+boxplot(men_av~women_av, data = mv_avg)
+par(mar=c(1,1,1,1))
+barplot(mw_avg)
+
+
+
+
 #####
-
-
-piv %>% 
-  as_tibble() %>% 
-  rowid_to_column(var = "avg_score") %>% 
-  gather(key="SPORT_NAME", value="NCAA_DIVISION",) %>% 
-  mutate(avg_score=as.numeric(gsub("V","",V1))) %>% 
-  ggplot(aes(Sport,V1,fill=V1)) + 
-  geom_tile() +
-  theme_ipsum() + 
-  theme(legend.position="none")
-
 
 
 
@@ -209,15 +216,23 @@ piv %>%
 
 Men_Avg = mean(Men$V1)
 Women_Avg = mean(Women$V1)
-compare = cbind(Men_Avg,Women_Avg)
-hist(sports_avg$avg_score)
+compare = cbind.data.frame(Men_Avg,Women_Avg)
+compare
+barplot(data = compare)
+
+
+ggplot(Men) + 
+  geom_point(aes(x = V1, y = reorder(Sport, V1))) 
+
+ggplot(Women) + 
+  geom_point(aes(x = V1, y = reorder(Sport, V1)))
+
+
 #####
 
 barplot(compare, beside=T,ylim = c(0,1000), col = c("red","green"),label = ) 
 
-ggplot(piv, aes(x = SPORT_NAME, y = avg_score)) + 
-  geom_col(colour = "blue") + 
-  scale_fill_brewer(palette = "Pastel1")
+ggplot(p)
 
 
 
@@ -242,59 +257,6 @@ pt <- PivotTable$new() %>%
 
 qpvt(pew,"Sport","V1")
 
-pew
-
-
-
-
-
-
-
-
-qpvt(pew, rows = "Sport",calculations = "V1")
-
-df
-
-
-
-athlete <- df[, colnames(df)[mean(c('2014_SCORE','2013_SCORE','2012_SCORE','2011_SCORE','2010_SCORE','2009_SCORE','2008_SCORE','2007_SCORE','2006_SCORE','2005_SCORE','2004_SCORE'))]]
-
-hist(athlete)
-xx <-(table(athlete))
-xx
-
-hist(xx,freq = TRUE,
-     ylim=c(1,98))
-ath_mean <- colMeans(athlete)
-
-
-t = cor(athlete)
-
-heatmap(t)
-
-hist(xx,main="Average Scores of Athletes (2004-14)",
-     xlim(0,100))
-
-
-
-
-t = cor(athlete)
-
-
-
-
-
-
-t<-data.matrix(df, rownames.force = NA)
-
-
-
-conference <- data.frame.groupby(df,'NCAA_CONFERENCE')
-
-
-
-
-DDD
 
 
 
@@ -315,11 +277,6 @@ DDD
 
 
 
-
-
-
-df %>%
-  group_by(SPORT_NAME,NCAA_DIVISION) 
 
 
 
