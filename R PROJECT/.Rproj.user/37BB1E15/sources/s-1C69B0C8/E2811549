@@ -3,7 +3,7 @@
     "path": "~/Documents/GitHub/TP2/R PROJECT/TP2.R",
     "project_path": "TP2.R",
     "type": "r_source",
-    "hash": "557735361",
+    "hash": "2168773248",
     "contents": "",
     "dirty": false,
     "created": 1648155132527.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "80,0",
-        "scrollLine": "79"
+        "cursorPosition": "43,0",
+        "scrollLine": "22"
     },
     "folds": "",
-    "lastKnownWriteTime": 1648158865,
+    "lastKnownWriteTime": 1648169533,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1648158865382,
+    "last_content_update": 1648169533127,
     "read_only": false,
     "read_only_alternatives": []
 }

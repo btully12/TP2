@@ -58,17 +58,22 @@ pt$addData(piv)
 pt$defineCalculation(calculationName = "avg_score",summariseExpression='n()')
 pt$addColumnDataGroups("SPORT_NAME")
 pt$addRowDataGroups("NCAA_CONFERENCE")
-PT$addRowDataGroups("NCAA_DIVISION")
-
+pt$addRowDataGroups("NCAA_DIVISION")
+pt$defineCalculation(calculationName = "avg_score", type="value", valueName="Average Score")
 pt$evaluatePivot()
-
 pt$renderPivot()
+
+
+
+pairs(piv)
+
+
 print(pt)
 
-
+head(pt)
 df
 
-
+qpvt(piv, "SPORT_NAME", "NCAA_CONFERENCE")
 
 athlete <- df[, colnames(df)[mean(c('2014_SCORE','2013_SCORE','2012_SCORE','2011_SCORE','2010_SCORE','2009_SCORE','2008_SCORE','2007_SCORE','2006_SCORE','2005_SCORE','2004_SCORE'))]]
 
