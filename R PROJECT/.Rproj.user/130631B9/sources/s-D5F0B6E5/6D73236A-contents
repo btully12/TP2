@@ -46,24 +46,23 @@ df<-subset(df, df$NCAA_SUBDIVISION != '-99')
  
 summary(df)
 
-keep <- c('FOURYEAR_ATHLETES','2014_ATHLETES', '2013_ATHLETES', '2012_ATHLETES',
-           '2011_ATHLETES', '2010_ATHLETES', '2009_ATHLETES', '2008_ATHLETES',
-           '2007_ATHLETES', '2006_ATHLETES', '2005_ATHLETES', '2004_ATHLETES')
-
-new <- (mean(c(15,19,23,27,31,35,39,43,47,51,55)))
-
-athlete <- df[, colnames(df)[mean(c(15,19,23,27,31,35,39,43,47,51,55))]]
 
 
 
-df['avg_score'] <- athlete
 
+df$avg_score = ((df$X2014_SCORE+df$X2013_SCORE+df$X2012_SCORE+df$X2011_SCORE+df$X2010_SCORE+df$X2009_SCORE+df$X2008_SCORE+df$X2007_SCORE+df$X2006_SCORE+df$X2005_SCORE+df$X2004_SCORE)/11)
 
+df$avg_score = round(df$avg_score,digit=2)
 
+df$avg_score = as.numeric(df$avg_score)
+
+histogram(df$avg_score)
+
+########
 piv <- df %>% 
   group_by(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION) %>% 
   select(NCAA_CONFERENCE,SPORT_NAME,avg_score,NCAA_DIVISION)
-  
+  ####
 sport_avg <- data.frame(aggregate(as.matrix(piv$avg_score), by=list(Sport=piv$SPORT_NAME), FUN=mean))
 sport_avg
 
@@ -84,15 +83,34 @@ Men=Men[-9,]
 
 Women <- sport_avg[grep("Women's", sport_avg$Sport), ]
 
-sport_avg %>% 
+piv %>% 
   as_tibble() %>% 
-  rowid_to_column(var = "Sport") %>% 
-  gather(key="V1", value="V1",-1) %>% 
-  mutate(V1=as.numeric(gsub("V","",V1))) %>% 
+  rowid_to_column(var = "avg_score") %>% 
+  gather(key="SPORT_NAME", value="NCAA_DIVISION",) %>% 
+  mutate(avg_score=as.numeric(gsub("V","",V1))) %>% 
   ggplot(aes(Sport,V1,fill=V1)) + 
   geom_tile() +
   theme_ipsum() + 
   theme(legend.position="none")
+
+
+hist()
+
+df$avg_score = as.numeric(gsub(",",".",(gsub("\\.","",df$avg_score))))
+
+Men_Avg = mean(Men$V1)
+Women_Avg = mean(Women$V1)
+compare = cbind(Men_Avg,Women_Avg)
+hist(sports_avg$avg_score)
+
+
+barplot(compare, beside=T,ylim = c(0,1000), col = c("red","green"),label = ) 
+
+ggplot(piv, aes(x = SPORT_NAME, y = avg_score)) + 
+  geom_col(colour = "blue") + 
+  scale_fill_brewer(palette = "Pastel1")
+
+
 
 
 table(Men) %>% 
